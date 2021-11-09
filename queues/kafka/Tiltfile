@@ -1,0 +1,15 @@
+docker_build('poc-data-lake/queues/kafka/dispatcher', './dispatcher',
+    live_update=[
+        sync('./dispatcher', '/app'),
+        run('cd /app && pip install -r requirements.txt', trigger=[ './requirements.txt' ]),
+        run('cd /app && pylint src'),
+    ],
+)
+
+docker_build('poc-data-lake/queues/kafka/queue-receiver', './queue-receiver',
+    live_update=[
+        sync('./queue-receiver', '/app'),
+        run('cd /app && pip install -r requirements.txt', trigger=[ './requirements.txt' ]),
+        run('cd /app && pylint src'),
+    ],
+)

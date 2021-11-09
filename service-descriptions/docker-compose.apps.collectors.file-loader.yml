@@ -1,0 +1,8 @@
+services:
+  file_loader-web:
+    image: poc-data-lake/file-loader/web
+    volumes:
+      - ./apps/collectors/file-loader/web/mnt/files:/files
+    ports:
+      - 26010:5000
+      - 26011:26011

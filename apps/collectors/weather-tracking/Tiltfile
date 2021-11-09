@@ -1,0 +1,14 @@
+docker_build('poc-data-lake/weather-tracking/server', './server',
+    live_update=[
+        sync('./server', '/app'),
+        run('cd /app && pip install -r requirements.txt', trigger=['./server/src/requirements.txt']),
+        run('cd /app && pylint src'),
+    ],
+)
+
+docker_build('poc-data-lake/weather-tracking/web', './web',
+    live_update=[
+        sync('./web', '/app'),
+        run('cd /app && npm i', trigger=['./web/src/package.json', './web/src/package-lock.json'])
+    ],
+)

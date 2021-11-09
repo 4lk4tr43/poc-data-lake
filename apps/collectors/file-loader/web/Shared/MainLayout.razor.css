@@ -1,0 +1,7 @@
+html, body, body > main {
+    height: 100%;
+}
+
+body > main {
+    padding: 1rem;
+}

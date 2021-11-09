@@ -1,0 +1,59 @@
+body {
+    background: #f1f1f1;
+}
+
+body > .container {
+    background: white;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+    margin: 5rem auto;
+}
+
+header.bs-docs-nav {
+    background: #a94f74;
+    border: none;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+    height: 3rem;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
+header.bs-docs-nav .navbar-brand {
+    background: inherit;
+}
+
+#ui-tabs .active a {
+    background: #b96a8b;
+}
+
+#ui-tabs > li > a {
+    color: white;
+}
+
+.navbar-inverse .navbar-nav > .dropdown > a .caret {
+    border-bottom-color: white;
+    border-top-color: white;
+}
+
+.navbar-inverse .navbar-nav > .open > a,
+.navbar-inverse .navbar-nav > .open > a:hover,
+.navbar-inverse .navbar-nav > .open > a:focus {
+    background-color: #b96a8b;
+}
+
+.dropdown-menu > li > a {
+    color: #a94f74;
+}
+
+.modal-dialog .panel-success {
+    border-color: lightgrey;
+}
+
+.modal-dialog .panel-heading {
+    background-color: #a94f74 !important;
+}
+
+.modal-dialog .panel-heading select {
+    margin-top: 1rem;
+}

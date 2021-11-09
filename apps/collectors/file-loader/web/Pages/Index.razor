@@ -1,0 +1,92 @@
+@page "/"
+@using System.IO
+@using System.Text
+
+<style>
+    h3 {
+        background: black;
+        color: white;
+        padding: 0.5rem;
+    }
+
+    ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    li {
+        padding: 0.25rem;
+    }
+
+    li:nth-child(even) {
+        background: lightgrey;
+    }
+</style>
+
+<div>
+    <InputFile OnChange="@Upload" />
+</div>
+
+<hr>
+
+<h3>
+    Loaded File/s
+</h3>
+
+<ul>
+    @foreach (var file in Uploads)
+    {
+        <li>
+            @file
+        </li>
+    }
+</ul>
+
+@code
+{
+    private const string FilesFolder = "/files/";
+    private const int MaxFileCount = 5;
+
+    private static readonly List<string> Uploads = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Uploads.Clear();
+        foreach (var fileName in Directory.EnumerateFiles(FilesFolder, "*"))
+        {
+            Uploads.Add(fileName.Replace(FilesFolder, ""));
+        }
+    }
+
+    private static async void PushToKafka(string fileName)
+    {
+        using var client = new HttpClient();
+        await client.PostAsync("http://service-descriptions_kafka-queue_receiver_1/store", 
+            new StringContent($"{{\"file\":\"{fileName}\"}}", Encoding.UTF8, "application/json"));
+    }
+    
+    private static async Task Upload(InputFileChangeEventArgs e)
+    {
+        var browserFiles = e.GetMultipleFiles(MaxFileCount);
+
+        foreach (var file in browserFiles)
+        {
+            try
+            {
+                await using var fileStream = File.Create(FilesFolder + file.Name);
+                var stream = file.OpenReadStream();
+                await stream.CopyToAsync(fileStream);
+                stream.Close();
+                fileStream.Close();
+                PushToKafka(file.Name);
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception);
+            }
+
+            Uploads.Add(file.Name);
+        }
+    }
+}

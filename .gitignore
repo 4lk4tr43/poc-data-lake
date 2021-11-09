@@ -1,0 +1,17 @@
+.history/
+.idea/
+.vscode/
+.svelte-kit/
+build/
+package/
+node_modules/
+secrets/
+venv/
+
+service-descriptions/apps/collectors/weather-tracking/mnt/mariadb
+
+*.log
+
+.DS_Store
+.Trashes
+Thumbs.db

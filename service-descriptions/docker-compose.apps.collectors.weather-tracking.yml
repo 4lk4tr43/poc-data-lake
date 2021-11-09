@@ -1,0 +1,25 @@
+services:
+  weather_tracking-db:
+    image: mariadb
+    environment:
+      - MARIADB_DATABASE=weather-tracking
+      - MARIADB_ALLOW_EMPTY_ROOT_PASSWORD=yes
+    volumes:
+      - ./apps/collectors/weather-tracking/mnt/mariadb:/var/lib/mysql
+    ports:
+      - 26001:3306
+
+  weather_tracking-server:
+    image: poc-data-lake/weather-tracking/server
+    depends_on:
+      - weather_tracking-db
+    environment:
+      - ENDPOINT=http://api.openweathermap.org/data/2.5/weather
+    volumes:
+      - ./secrets:/secrets
+      - ./apps/collectors/weather-tracking/mnt/server/static:/static
+
+  weather_tracking-web:
+    image: poc-data-lake/weather-tracking/web
+    ports:
+      - 26000:26000

@@ -1,0 +1,5 @@
+docker_build('poc-data-lake/file-loader/web', './web',
+    live_update=[
+        sync('./web', '/app'),
+    ],
+)

@@ -1,0 +1,7 @@
+docker_build('itp-workshop/queue-receiver', '.',
+    live_update=[
+        sync('.', '/app'),
+        run('cd /app && pip install -r requirements.txt', trigger=[ './requirements.txt' ]),
+        run('cd /app && pylint src'),
+    ],
+)
